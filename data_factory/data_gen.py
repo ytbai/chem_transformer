@@ -28,3 +28,20 @@ class DelaneyDataset(torch.utils.data.Dataset):
   
   def __len__(self):
     return self.length
+
+
+def make_split():
+
+  data_dir = "data_factory/data"
+  file_name = "delaney.csv"
+  file_address = os.path.join(data_dir, file_name)
+
+  df = pd.read_csv(file_address)
+  df = df.sample(frac=1, random_state=0).reset_index(drop=True)
+  df_train = df.iloc[:700]
+  df_valid = df.iloc[700:900]
+  df_test = df.iloc[900:]
+
+  df_train.to_csv(os.path.join(data_dir, "delaney_train.csv"), index=False)
+  df_valid.to_csv(os.path.join(data_dir, "delaney_valid.csv"), index=False)
+  df_test.to_csv(os.path.join(data_dir, "delaney_test.csv"), index=False)
