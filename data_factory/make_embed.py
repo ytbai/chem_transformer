@@ -4,7 +4,6 @@ import pandas as pd
 import os
 
 
-
 data_dir = "data_factory/data"
 
 file_address = os.path.join(data_dir, "delaney.csv")
@@ -17,4 +16,4 @@ for i in range(len(df)):
 
 char_list = sorted(list(char_set))
 compress_df = pd.DataFrame({"embed": range(len(char_list)), "char": char_list})
-compress_df.to_csv(os.path.join(data_dir, "embed.csv"), index_label=False)
+compress_df.to_csv(os.path.join(data_dir, "embed.csv"), index=False)
