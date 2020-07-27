@@ -9,6 +9,7 @@ class DelaneyDataset(torch.utils.data.Dataset):
     self.set_file_address()
     self.df             = pd.read_csv(self.file_address)
     self.length         = self.df.shape[0]
+    self.embed_obj      = Embed()
   
   def set_file_address(self):
     data_directory = "data_factory/data"
@@ -23,8 +24,10 @@ class DelaneyDataset(torch.utils.data.Dataset):
     compound_id         = series[0] 
     y_true              = series[1]
     y_esol              = series[2]
-    smiles              = series[3]
-    return smiles, y_true, y_esol
+    smiles              = series[3].strip()
+    x                   = self.embed_obj.embed_smiles(smiles)
+    print(smiles)
+    return x, y_true, y_esol
   
   def __len__(self):
     return self.length
