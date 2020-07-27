@@ -2,6 +2,8 @@ import torch
 import numpy as np
 import pandas as pd
 import os
+
+
 class Embed():
   data_dir = "data_factory/data"
   embed_filename = "embed.csv"
@@ -20,7 +22,8 @@ class Embed():
       embed = self.embed_df.iloc[index]["embed"]
       self.map[char] = embed
     self.embed_dim = len(self.map)
-    
+  
+
   @classmethod
   def make_embed_csv(cls):
     data_file_address = os.path.join(cls.data_dir, "delaney.csv")
@@ -28,8 +31,8 @@ class Embed():
 
     char_set = set()
     for i in range(len(data_df)):
-      for c in data_df.iloc[i]["SMILES"].strip():
-        char_set.add(c)
+      for char in data_df.iloc[i]["SMILES"].strip():
+        char_set.add(char)
 
     char_list = sorted(list(char_set))
     compress_df = pd.DataFrame({"embed": range(len(char_list)), "char": char_list})
