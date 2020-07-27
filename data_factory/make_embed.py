@@ -2,8 +2,6 @@ import torch
 import numpy as np
 import pandas as pd
 import os
-
-
 class Embed():
   data_dir = "data_factory/data"
   embed_filename = "embed.csv"
@@ -21,7 +19,8 @@ class Embed():
       char = self.embed_df.iloc[index]["char"]
       embed = self.embed_df.iloc[index]["embed"]
       self.map[char] = embed
-
+    self.embed_dim = len(self.map)
+    
   @classmethod
   def make_embed_csv(cls):
     data_file_address = os.path.join(cls.data_dir, "delaney.csv")
