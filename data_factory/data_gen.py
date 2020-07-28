@@ -27,7 +27,7 @@ class DelaneyDataset(torch.utils.data.Dataset):
     y_esol              = series[2]
     smiles              = series[3].strip()
     x                   = self.embed_obj.embed_smiles(smiles)
-    print(smiles)
+    
     return x, y_true, y_esol
   
   def __len__(self):
