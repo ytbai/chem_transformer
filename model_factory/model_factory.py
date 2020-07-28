@@ -4,9 +4,12 @@ import os
 
 class ModelFactory():
   models_dir = "model_factory/models"
-  def __init__(self, model, name):
+  def __init__(self, model, name = None):
     self.model = model
-    self.name = name
+    if name is None:
+      self.name = self.model.__class__.__name__
+    else:
+      self.name = name
     self.model_dir = os.path.join(self.models_dir, self.name)
     
     self.state_dict_path = os.path.join(self.model_dir, "state_dict.tar")
