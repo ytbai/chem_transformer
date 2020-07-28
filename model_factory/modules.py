@@ -17,13 +17,12 @@ class Transformer(nn.Module):
         EncoderStack(self.d_model, self.h, self.L)
     )
   
-  # u : input can have shape (1, n, d_input) or (n, d_input)
-  # output has shape (1, n, d_model)
+  # u : input can have shape (n, d_input)
+  # output has shape (n, d_model)
   def forward(self, u):
     # shape (n, d_input)
-    output = u.view(-1, self.d_input)
     output = self.mod(output)
-    return output.view(1, -1, self.d_model)
+    return output
 
 
 
