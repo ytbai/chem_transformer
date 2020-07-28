@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from data_factory.make_embed import *
 
+
 class DelaneyDataset(torch.utils.data.Dataset):
   def __init__(self, mode):
     self.mode           = mode
@@ -23,8 +24,8 @@ class DelaneyDataset(torch.utils.data.Dataset):
   def __getitem__(self, i):
     series              = self.df.iloc[i]
     compound_id         = series[0] 
-    y_true              = series[1]
-    y_esol              = series[2]
+    y_true              = torch.tensor(series[1]).type(torch.cuda.FloatTensor)
+    y_esol              = torch.tensor(series[2]).type(torch.cuda.FloatTensor)
     smiles              = series[3].strip()
     x                   = self.embed_obj.embed_smiles(smiles).type(torch.cuda.FloatTensor)
     
