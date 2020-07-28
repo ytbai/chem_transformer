@@ -26,7 +26,7 @@ class DelaneyDataset(torch.utils.data.Dataset):
     y_true              = series[1]
     y_esol              = series[2]
     smiles              = series[3].strip()
-    x                   = self.embed_obj.embed_smiles(smiles)
+    x                   = self.embed_obj.embed_smiles(smiles).type(torch.cuda.FloatTensor)
     
     return x, y_true, y_esol
   
