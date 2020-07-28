@@ -17,11 +17,11 @@ class Transformer(nn.Module):
         EncoderStack(self.d_model, self.h, self.L)
     )
   
-  # u : input can have shape (n, d_input)
+  # x : input can have shape (n, d_input)
   # output has shape (n, d_model)
-  def forward(self, u):
+  def forward(self, x):
     # shape (n, d_input)
-    output = self.mod(output)
+    output = self.mod(x)
     return output
 
 
@@ -53,10 +53,10 @@ class TokenEmbed(nn.Module):
     # embedding matrix shape (d_input, d_model)
     self.embed_mat = nn.Parameter(torch.randn(self.d_input, self.d_model))
 
-  # u : shape (n, d_input)
+  # x : shape (n, d_input)
   # output shape (n, d_model)
-  def forward(self, u):
-    return torch.matmul(u, self.embed_mat)
+  def forward(self, x):
+    return torch.matmul(x, self.embed_mat)
 
 
 class EncoderStack(nn.Module):
