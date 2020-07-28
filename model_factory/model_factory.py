@@ -4,7 +4,7 @@ import os
 
 class ModelFactory():
   models_dir = "model_factory/models"
-  def __init__(self, model, name = None):
+  def __init__(self, model, name):
     self.model = model
     self.name = name
     self.model_dir = os.path.join(self.models_dir, self.name)
