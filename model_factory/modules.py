@@ -92,7 +92,7 @@ class EncoderLayer(nn.Module):
     sa_out = self.sa(x) + x
     sa_out = self.sa_ln(sa_out)
 
-    ff_out = self.ff(sa_out)
+    ff_out = self.ff(sa_out) + sa_out
     ff_out = self.ff_ln(ff_out)
 
     return ff_out
