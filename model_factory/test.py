@@ -1,9 +1,9 @@
 import torch
 import numpy as np
 
-# assume batch size 1
-def test(model_factory, test_dataloader, criterion):
+def test(model_factory, test_dataset, criterion):
   model_factory.model.eval()
+  test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size = 1, shuffle = False)
   loss_epoch = []
   for x, y_true in test_dataloader:
     y_pred = model_factory.model(x)
@@ -11,4 +11,16 @@ def test(model_factory, test_dataloader, criterion):
     loss_epoch.append(loss.item())
   loss_epoch = np.array(loss_epoch).mean()
   
+  return loss_epoch
+
+def test_delaney(test_dataset, criterion):
+  test_dataset.set_delaney()
+  test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size = 1, shuffle = False)
+  loss_epoch = []
+  for y_true, y_esol in test_dataloader:
+    loss = criterion(y_esol, y_true)
+    loss_epoch.append(loss.item())
+  loss_epoch = np.array(loss_epoch).mean()
+  
+  test_dataset.set_delaney(False)
   return loss_epoch
