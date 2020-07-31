@@ -2,7 +2,7 @@ import torch
 import numpy as np
 
 # assume batch size 1
-def test_once(model_factory, test_dataloader, criterion):
+def test(model_factory, test_dataloader, criterion):
   model_factory.model.eval()
   loss_epoch = []
   for x, y_true in test_dataloader:

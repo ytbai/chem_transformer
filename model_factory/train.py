@@ -20,7 +20,7 @@ def train_once(model_factory, train_dataloader, criterion, optimizer):
   return loss_epoch
 
 # assume batch size 1
-def valid_once(model_factory, valid_dataloader, criterion):
+def valid(model_factory, valid_dataloader, criterion):
   model_factory.model.eval()
   loss_epoch = []
   for x, y_true in valid_dataloader:
