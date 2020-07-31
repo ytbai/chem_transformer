@@ -163,3 +163,30 @@ class SelfAttention(nn.Module):
     multi_attention = torch.matmul(multi_attention, self.WO)
 
     return multi_attention
+
+class RegressorHead(nn.Module):
+  def __init__(self, d_model, n_cxt):
+    super().__init__()
+    self.d_model = d_model
+    self.n_cxt = n_cxt
+    self.linear = nn.Linear(d_model, 1)
+
+  # x : input shape (1, d_model)
+  # output shape (1,)
+  def forward(self, x):
+    output = self.linear(x).view((1,))
+    return output
+
+class ClassifierHead(nn.Module):
+  def __init__(self, d_model, n_cxt, num_classes):
+    super().__init__()
+    self.d_model = d_model
+    self.n_cxt = n_cxt
+    self.seq = nn.Sequential(nn.Linear(d_model, num_classes),
+			     nn.Softmax(dim = 1),)
+
+  # x : input shape (1, d_model)
+  # output shape (1, num_classes)
+  def forward(self, x):
+    output = self.seq(x)
+    return output
