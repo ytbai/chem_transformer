@@ -2,7 +2,7 @@ import torch
 import numpy as np
 
 def test(model_factory, test_dataset, criterion):
-  if isinstance(model_factory, str) and model_factory == "delaney":
+  if isinstance(model_factory, str) and model_factory == "esol":
     return test_delaney(test_dataset, criterion)
   else:
     model_factory.model.eval()
@@ -19,7 +19,7 @@ def test(model_factory, test_dataset, criterion):
 
 
 
-def test_delaney(test_dataset, criterion):
+def test_esol(test_dataset, criterion):
   test_dataset.set_delaney()
   test_dataloader = torch.utils.data.DataLoader(test_dataset, batch_size = 1, shuffle = False)
   loss_epoch = []
