@@ -1,8 +1,8 @@
 import torch
 import numpy as np
 
-# assume batch size 1
-def train_once(model_factory, train_dataloader, criterion, optimizer):
+def train_once(model_factory, train_dataset, criterion, optimizer):
+  train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size = 1, shuffle = True)
   model_factory.model.train()
   loss_epoch = []
   for x, y_true in train_dataloader:
@@ -19,8 +19,8 @@ def train_once(model_factory, train_dataloader, criterion, optimizer):
 
   return loss_epoch
 
-# assume batch size 1
-def valid(model_factory, valid_dataloader, criterion):
+def valid(model_factory, valid_dataset, criterion):
+  valid_dataloader = torch.utils.data.DataLoader(valid_dataset, batch_size = 1, shuffle = False)
   model_factory.model.eval()
   loss_epoch = []
   for x, y_true in valid_dataloader:
