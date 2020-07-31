@@ -39,11 +39,15 @@ class ModelFactory():
     self.model.load_state_dict(torch.load(self.state_dict_path))
 
   def save_loss_dict(self):
-    pickle.dump(self.loss_dict, open(self.loss_dict_path, "wb"))
+    f = open(self.loss_dict_path, "wb")
+    pickle.dump(self.loss_dict, f)
+    f.close()
     print("loss_dict saved")
     
   def load_loss_dict(self):
-    self.loss_dict = pickle.load(open(self.loss_dict_path, "rb"))
+    f = open(self.loss_dict_path, "rb")
+    self.loss_dict = pickle.load(f)
+    f.close()
 
   def add_loss_name(self, loss_name):
     self.loss_dict[loss_name] = []
