@@ -4,7 +4,7 @@ import numpy as np
 def train_once(model_factory, train_dataloader, criterion, optimizer):
   model_factory.model.train()
   loss_epoch = []
-  for x, y_true, y_esol in train_dataloader:
+  for x, y_true in train_dataloader:
     optimizer.zero_grad()
     y_pred = model_factory.model(x)
     loss = criterion(y_pred, y_true)
@@ -21,7 +21,7 @@ def train_once(model_factory, train_dataloader, criterion, optimizer):
 def valid_once(model_factory, valid_dataloader, criterion):
   model_factory.model.eval()
   loss_epoch = []
-  for x, y_true, y_esol in valid_dataloader:
+  for x, y_true in valid_dataloader:
     y_pred = model_factory.model(x)
     loss = criterion(y_pred, y_true)
     loss_epoch.append(loss.item())
