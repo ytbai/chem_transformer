@@ -30,8 +30,13 @@ def valid_ds(model_ds_factory, model_factory, valid_dataset, criterion):
   for x, target_true in valid_dataloader:
     features = model_factory.model.features(x).detach()
     target_pred = model_ds_factory.model(features)
-    loss = criterion(target_pred, target_true)
-    loss_epoch.append(loss.item())
+
+    if isinstance(criterion, str) and criterion == "acc":
+      loss = int((target_pred == target_true).item())
+      loss_epoch.append(loss)
+    else:
+      loss = criterion(target_pred, target_true)
+      loss_epoch.append(loss.item())
   loss_epoch = np.array(loss_epoch).mean()
   
   model_ds_factory.append_loss("loss_valid", loss_epoch)
