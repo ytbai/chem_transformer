@@ -21,10 +21,18 @@ class ChemTransformer(nn.Module):
     # output shape (n_cxt, 1)
     self.project = nn.Linear(self.d_model, 1)
 
-  # u : input shape (1, n, d_input)
-  def forward(self, x):
+  # x : input shape (1, n, d_input)
+  # output shape (1, d_model)
+  def features(self, x):
     x = x.view(-1, self.d_input)
     output = self.transformer(x)
+    output = torch.sum(output, dim = 1, keepdim = True)/self.n_cxt
+    return output
+
+  # x : input shape (1, n, d_input)
+  # output shape (1, )
+  def forward(self, x):
+    output = self.features(x)
     output = self.project(output)
-    return torch.sum(output)/self.n_cxt
+    return output.view((1,))
     
