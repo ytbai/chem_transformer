@@ -3,7 +3,7 @@ import numpy as np
 
 def test(model_factory, test_dataset, criterion):
   if isinstance(model_factory, str) and model_factory == "esol":
-    return test_delaney(test_dataset, criterion)
+    return test_esol(test_dataset, criterion)
   else:
     return test_model_factory(model_factory, test_dataset, criterion)
     
