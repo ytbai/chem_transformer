@@ -8,9 +8,9 @@ class ChemTransformer(nn.Module):
   def __init__(self):
     super().__init__()
     self.d_input = 31
-    self.d_model = 16
+    self.d_model = 64
     self.n_cxt = 97
-    self.h = 4
+    self.h = 8
     self.L = 1
 
     # input shape (n_cxt, d_input)
