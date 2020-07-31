@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 
-def train_once(model_factory, train_dataset, criterion, optimizer):
+def train(model_factory, train_dataset, criterion, optimizer):
   train_dataloader = torch.utils.data.DataLoader(train_dataset, batch_size = 1, shuffle = True)
   model_factory.model.train()
   loss_epoch = []
