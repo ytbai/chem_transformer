@@ -8,7 +8,7 @@ def train_ds(model_ds_factory, model_factory, train_dataset, criterion, optimize
   loss_epoch = []
   for x, target_true in train_dataloader:
     optimizer.zero_grad()
-    features = model_factory.model.features(x)
+    features = model_factory.model.features(x).detach()
     target_pred = model_ds_factory.model(features)
     loss = criterion(target_pred, target_true)
     loss.backward()
@@ -28,7 +28,7 @@ def valid_ds(model_ds_factory, model_factory, valid_dataset, criterion):
   model_factory.model.eval()
   loss_epoch = []
   for x, target_true in valid_dataloader:
-    features = model_factory.model.features(x)
+    features = model_factory.model.features(x).detach()
     target_pred = model_ds_factory.model(features)
     loss = criterion(target_pred, target_true)
     loss_epoch.append(loss.item())
