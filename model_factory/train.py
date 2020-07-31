@@ -22,7 +22,7 @@ def train_ds(model_ds_factory, model_factory, train_dataset, criterion, optimize
   return loss_epoch
 
 
-def valid_ds(model_ds_factory, model_factory, valid_dataset, criterion):
+def valid_ds(model_ds_factory, model_factory, valid_dataset, metric):
   valid_dataloader = torch.utils.data.DataLoader(valid_dataset, batch_size = 1, shuffle = False)
   model_ds_factory.model.eval()
   model_factory.model.eval()
@@ -31,11 +31,11 @@ def valid_ds(model_ds_factory, model_factory, valid_dataset, criterion):
     features = model_factory.model.features(x).detach()
     target_pred = model_ds_factory.model(features)
 
-    if isinstance(criterion, str) and criterion == "acc":
+    if isinstance(metric, str) and metric == "acc":
       loss = int((target_pred == target_true).item())
       loss_epoch.append(loss)
     else:
-      loss = criterion(target_pred, target_true)
+      loss = metric(target_pred, target_true)
       loss_epoch.append(loss.item())
   loss_epoch = np.array(loss_epoch).mean()
   
@@ -62,13 +62,13 @@ def train(model_factory, train_dataset, criterion, optimizer):
 
   return loss_epoch
 
-def valid(model_factory, valid_dataset, criterion):
+def valid(model_factory, valid_dataset, metric):
   valid_dataloader = torch.utils.data.DataLoader(valid_dataset, batch_size = 1, shuffle = False)
   model_factory.model.eval()
   loss_epoch = []
   for x, y_true in valid_dataloader:
     y_pred = model_factory.model(x)
-    loss = criterion(y_pred, y_true)
+    loss = metric(y_pred, y_true)
     loss_epoch.append(loss.item())
   loss_epoch = np.array(loss_epoch).mean()
   
