@@ -4,7 +4,6 @@ import numpy as np
 
 from model_factory.modules import *
 
-print("sum_cxt")
 class ChemTransformer(nn.Module):
   def __init__(self):
     super().__init__()
