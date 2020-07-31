@@ -12,6 +12,7 @@ class DelaneyDataset(torch.utils.data.Dataset):
     self.df             = pd.read_csv(self.file_address)
     self.length         = self.df.shape[0]
     self.embed_obj      = Embed()
+    self.delaney	= False
     self.extra_feature  = None
     self.feature_map    = {"y_esol": 1,
                            "min_deg": 2,
@@ -20,6 +21,10 @@ class DelaneyDataset(torch.utils.data.Dataset):
                            "num_rings": 5,
                            "num_rot_bonds": 6,
                            "polar_area": 7}
+
+  def set_delaney(self, arg = True):
+    self.delaney = arg
+    return self
 
   def add_feature(self, feature_name):
     self.extra_feature = feature_name
@@ -35,17 +40,20 @@ class DelaneyDataset(torch.utils.data.Dataset):
 
   def __getitem__(self, i):
     series              = self.df.iloc[i]
-    compound_id         = series[0] 
     y_true              = torch.tensor(series[8]).type(torch.cuda.FloatTensor)
-    smiles              = series[9].strip()
-    x                   = self.embed_obj.embed_smiles(smiles).type(torch.cuda.FloatTensor)
-    
-    if self.extra_feature is None:
+
+    if self.delaney:
+      y_esol		= torch.tensor(series[1]).type(torch.cuda.FloatTensor)
+      return y_true, y_esol
+
+    elif self.extra_feature is None:
+      smiles            = series[9].strip()
+      x                 = self.embed_obj.embed_smiles(smiles).type(torch.cuda.FloatTensor)
       return x, y_true
+
     else:
       extra_index	= self.feature_map[self.extra_feature]
       extra_value	= torch.tensor(series[extra_index]).type(torch.cuda.FloatTensor)
-
       return x, y_true, extra_value
 
   def __len__(self):
