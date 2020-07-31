@@ -26,7 +26,7 @@ class ChemTransformer(nn.Module):
   def features(self, x):
     x = x.view(-1, self.d_input)
     output = self.transformer(x)
-    output = torch.sum(output, dim = 1, keepdim = True)/self.n_cxt
+    output = torch.sum(output, dim = 0, keepdim = True)/self.n_cxt
     return output
 
   # x : input shape (1, n, d_input)
@@ -35,4 +35,3 @@ class ChemTransformer(nn.Module):
     output = self.features(x)
     output = self.project(output)
     return output.view((1,))
-    
