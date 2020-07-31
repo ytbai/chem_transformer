@@ -4,6 +4,7 @@ import numpy as np
 
 from model_factory.modules import *
 
+print("sum_cxt")
 class ChemTransformer(nn.Module):
   def __init__(self):
     super().__init__()
@@ -26,5 +27,5 @@ class ChemTransformer(nn.Module):
     x = x.view(-1, self.d_input)
     output = self.transformer(x)
     output = self.project(output)
-    return torch.mean(output)
+    return torch.sum(output)/self.n_cxt
     
