@@ -15,10 +15,6 @@ class DelaneyDataset(torch.utils.data.Dataset):
                 "polar_area": 7,
                 "y_true": 8}
 
-  target_num_classes_map = {"num_H_donors": 12,
-                            "num_rings": 9,
-                            "num_rot_bonds": 24}
-
   def __init__(self, mode, target_name = "y_true"):
     self.mode           = mode
     self.set_file_address()
@@ -31,16 +27,6 @@ class DelaneyDataset(torch.utils.data.Dataset):
   def set_target(self, target_name):
     self.target_name = target_name
     self.target_index = self.target_map[self.target_name]
-
-    if self.target_name in self.target_num_classes_map:
-      self.target_type = "class"
-    else:
-      self.target_type = "reg"
-
-    if self.target_type == "class":
-      self.target_num_classes = self.target_num_classes_map[self.target_name]
-    elif self.target_type == "reg":
-      self.target_num_classes = None
 
   def set_delaney(self, arg = True):
     self.delaney = arg
@@ -59,11 +45,7 @@ class DelaneyDataset(torch.utils.data.Dataset):
       y_esol		= torch.tensor(series[1]).type(torch.cuda.FloatTensor)
       return y_true, y_esol
     else:
-      target_value      = torch.tensor(series[self.target_index])
-      if self.target_type == "reg":
-        target_value    = target_value.type(torch.cuda.FloatTensor)
-      elif self.target_type == "class":
-        target_value    = target_value.type(torch.cuda.LongTensor)
+      target_value      = torch.tensor(series[self.target_index]).type(torch.cuda.FloatTensor)
 
       smiles            = series[9].strip()
       x                 = self.embed_obj.embed_smiles(smiles).type(torch.cuda.FloatTensor)
