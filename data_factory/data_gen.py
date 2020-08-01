@@ -27,6 +27,7 @@ class DelaneyDataset(torch.utils.data.Dataset):
   def set_target(self, target_name):
     self.target_name = target_name
     self.target_index = self.target_map[self.target_name]
+    return self
 
   def set_esol(self, arg = True):
     self.esol = arg
@@ -43,7 +44,7 @@ class DelaneyDataset(torch.utils.data.Dataset):
       x, target_value = self[i]
       target_total = target_total + target_value
     target_mean = target_total / self.length
-    return target_mean
+    return target_mean.view((1,))
 
   def __getitem__(self, i):
     series              = self.df.iloc[i]
