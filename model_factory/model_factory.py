@@ -18,8 +18,12 @@ class ModelFactory():
     self.loss_dict_path = os.path.join(self.model_dir, "loss_dict.p")
     self.loss_dict = defaultdict(list)
 
+    # -1 indicates that lower validation score is better
+    # +1 indicates that higher validation score is better
+    self.eval_better = -1
+
   def save_best(self, loss_name):
-    if min(self.loss_dict[loss_name]) == self.loss_dict[loss_name][-1]:
+    if max(self.eval_better*self.loss_dict[loss_name]) == self.eval_better*self.loss_dict[loss_name][-1]:
       self.save_state_dict()
     self.save_loss_dict()
 

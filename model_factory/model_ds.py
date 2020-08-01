@@ -38,7 +38,6 @@ class DS():
 
   def set_model(self):
     self.model = self.model_map[self.target_name].cuda()
-
     self.model_factory = ModelFactory(self.model)
 
   def set_criterion(self):
@@ -50,6 +49,8 @@ class DS():
   def set_metric(self):
     if self.ds_type == "reg":
       self.metric = nn.MSELoss()
+      self.model_factory.eval_better = -1
     elif self.ds_type == "class":
       self.metric = "acc"
+      self.model_factory.eval_better = +1
 
