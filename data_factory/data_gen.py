@@ -37,6 +37,13 @@ class DelaneyDataset(torch.utils.data.Dataset):
     file_name = "delaney_"+self.mode+".csv"
     self.file_address = os.path.join(data_directory, file_name)
 
+  def get_target_mean(self):
+    target_total = 0
+    for i in range(self.length):
+      target_total += self[i].item()
+    target_mean = target_total / self.length
+    return target_mean
+
   def __getitem__(self, i):
     series              = self.df.iloc[i]
     
