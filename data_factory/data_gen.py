@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import os
 from data_factory.make_embed import *
+from collections import Counter
 
 
 class DelaneyDataset(torch.utils.data.Dataset):
@@ -45,6 +46,14 @@ class DelaneyDataset(torch.utils.data.Dataset):
       target_total = target_total + target_value
     target_mean = target_total / self.length
     return target_mean.view((1,))
+
+  def get_target_mode(self):
+    counter = Counter()
+    for i in range(self.length):
+      x, target_value = self[i]
+      counter[target_value.item()] += 1
+    target_mode = torch.tensor(counter.most_common(1)[0][0]).type(torch.cuda.FloatTensor).view((1,))
+    return target_mode
 
   def __getitem__(self, i):
     series              = self.df.iloc[i]
