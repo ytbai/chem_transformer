@@ -3,7 +3,7 @@ import numpy as np
 from torch import nn
 from model_factory.modules import *
 
-class PolarAreaRegressor(nn.Module):
+class MolWeightRegressor(nn.Module):
   def __init__(self):
     super().__init__()
     self.d_model = 64
