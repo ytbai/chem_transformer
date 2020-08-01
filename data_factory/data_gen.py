@@ -21,15 +21,15 @@ class DelaneyDataset(torch.utils.data.Dataset):
     self.df             = pd.read_csv(self.file_address)
     self.length         = self.df.shape[0]
     self.embed_obj      = Embed()
-    self.delaney	= False
+    self.esol    	= False
     self.set_target(target_name)
 
   def set_target(self, target_name):
     self.target_name = target_name
     self.target_index = self.target_map[self.target_name]
 
-  def set_delaney(self, arg = True):
-    self.delaney = arg
+  def set_esol(self, arg = True):
+    self.esol = arg
     return self
 
   def set_file_address(self):
@@ -40,17 +40,18 @@ class DelaneyDataset(torch.utils.data.Dataset):
   def get_target_mean(self):
     target_total = 0
     for i in range(self.length):
-      target_total += self[i].item()
+      x, target_value = self[i]
+      target_total = target_total + target_value
     target_mean = target_total / self.length
     return target_mean
 
   def __getitem__(self, i):
     series              = self.df.iloc[i]
     
-    if self.delaney:
+    if self.esol:
       y_true    	= torch.tensor(series[8]).type(torch.cuda.FloatTensor)
       y_esol		= torch.tensor(series[1]).type(torch.cuda.FloatTensor)
-      return y_true, y_esol
+      return y_esol, y_true
     else:
       target_value      = torch.tensor(series[self.target_index]).type(torch.cuda.FloatTensor)
 
