@@ -4,7 +4,7 @@ This repository provides all the code I used for a project called "Learning Chem
 
 ## Quick Guide
 
-```data_factory/data/delaney.csv``` --- This is a dataset for the log solubility of 1144 different molecules provided by [Delaney's paper] (https://pubs.acs.org/doi/10.1021/ci034243x). 
+```data_factory/data/delaney.csv``` --- This is a dataset for the log solubility of 1144 different molecules provided by [Delaney's paper](https://pubs.acs.org/doi/10.1021/ci034243x). 
 
 ```data_factory/delaney_processed.csv``` and ```data_factory/excluded_molecules.csv``` --- These two files were taken from [Duvenaud's repository](https://github.com/HIPS/neural-fingerprint), which provide additional chemical properties for Delaney's molecules. 
 
