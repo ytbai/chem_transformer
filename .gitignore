@@ -1,2 +1,5 @@
 *.pyc
-*.ipynb
+test_colab.ipynb
+test_ds_colab.ipynb
+train_colab.ipynb
+train_ds_colab.ipynb
